@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新增页面</title>
+</head>
+<body>
+<form th:action="@{/c/students/addinfo}" method="POST">
+
+<p style="display: none;">创建人:<input type="text" name="createBy" th:value="${session.USERS.name}"/></p>
+
+<p>奖惩记录名:</p>
+<p><input type="text" name="name"/></p>
+<p>奖惩对象:</p>
+<p>
+<select name="stuCode">
+<option th:each="obj:${INFO}" th:value=${obj.code}>[[${obj.name}]]</option>
+</select>
+</p>
+<p>描述:</p>
+<p>
+<textarea rows="5" cols="30" name="des"></textarea>
+</p>
+<p>
+<button>保存</button>
+<button onclick="history.back()">取消</button>
+</form>
+<p>
+</body>
+</html>

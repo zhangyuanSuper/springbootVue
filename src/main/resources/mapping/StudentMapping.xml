@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.IStudentDao">
+	<select id="queryAllStudent" resultType="com.example.demo.pojo.Student">
+		SELECT * FROM t_student
+	</select>
+
+	<select id="queryByNameWithPwd" resultType="com.example.demo.pojo.Student">
+		select * from
+		t_student
+		where `name`=#{stu.name} and `code`=#{stu.code}
+	</select>
+
+	<select id="queryAllRecord" resultType="com.example.demo.pojo.Record">
+		SELECT t_record.`id` ,
+		t_record.name,
+		t_student.`name` AS stuName,
+		t_record.`createBy`,
+		t_record.`createDate`,
+		t_record.`des`
+		FROM t_student
+		INNER JOIN t_record
+		ON t_student.code=t_record.stuCode
+		
+	</select>
+
+
+	<select id="queryByStuCode" resultType="com.example.demo.pojo.Record">
+		SELECT t_record.`id` ,
+		t_record.name,
+		t_student.`name` AS stuName,
+		t_record.`createBy`,
+		t_record.`createDate`,
+		t_record.`des`
+		FROM t_student
+		INNER JOIN t_record
+		ON t_student.code=t_record.stuCode
+		
+		
+		WHERE t_record.`stuCode`=#{0}
+	</select>
+	
+	<select id="queryByNameWithStuName" resultType="com.example.demo.pojo.Record">
+	SELECT t_record.`id` ,
+		t_record.name,
+		t_student.`name` AS stuName,
+		t_record.`createBy`,
+		t_record.`createDate`,
+		t_record.`des`
+		FROM t_student
+		INNER JOIN t_record ON t_student.code=t_record.stuCode
+	<where>
+		<if test="name!=null">
+		and t_record.name like  '%${name}%'
+		</if>
+		<if test="stuName!=null">
+	and	t_student.name like '%${stuName}%'
+		</if>
+	</where>
+	
+</select>
+	
+	
+	<delete id="delByRecordById">
+	DELETE FROM t_record WHERE id=#{0}
+	</delete>
+	
+	<insert id="addRecord">
+	INSERT INTO t_record(`name`,`stuCode`,`createBy`,`des`)
+    VALUES(#{name},#{stuCode},#{createBy},#{des})
+	</insert>
+	
+	<select id="queryById" resultType="com.example.demo.pojo.Record">
+	select * from t_record where id=#{0}
+	</select>
+	
+	<update id="update">
+	UPDATE t_record SET `name`=#{name},
+    stuCode=#{stuCode},des=#{des} 
+    WHERE id=#{id}
+	</update>
+	
+</mapper>

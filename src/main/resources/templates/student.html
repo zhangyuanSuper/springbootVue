@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>学生管理系统</title>
+</head>
+<body>
+	<table border="1">
+		<thead>
+			<tr>
+				<td>学号</td>
+				<td>姓名</td>
+				<td>职务</td>
+				<td>专业</td>
+				<td>班级</td>
+				<td>性别</td>
+				<td>生日</td>
+				<td>电话</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr th:each="temp:${PAGE_INFO.list}">
+				<td class="id">[[${temp.id}]]</td>
+				<td>[[${temp.name}]]</td>
+				<td>[[${temp.code}]]</td>
+				<td>
+					<div th:switch="${temp.major}">
+						<span th:case="1">计算机</span> <span th:case="2">电器</span> <span
+							th:case="3">金融</span>
+					</div>
+				</td>
+				<td>
+					<div th:switch="${temp.job}">
+						<span th:case="1">普通学生</span> <span th:case="2">组长</span> <span
+							th:case="3">班长</span>
+					</div>
+				</td>
+				<td th:text="${temp.sex==1}?'男':'女'"></td>
+				<td th:text="${#dates.format(temp.birthday,'yyyy-MM-dd')}"></td>
+				<td>[[${temp.tel}]]</td>
+				<td><a th:href="|/c/students/queryByStuCode?stucode=${temp.code}|">查看</a></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="9">当前是第<span th:text="${PAGE_INFO.pageNum}"></span>页,共<span
+					th:text="${PAGE_INFO.pages}"></span>页&nbsp;&nbsp;&nbsp;&nbsp; <a
+					th:href="|/c/students/getStudentList?p=${PAGE_INFO.prePage}&s=2|">
+						上一页&nbsp;&nbsp;&nbsp;&nbsp; <a
+						th:href="|/c/students/getStudentList?p=${PAGE_INFO.nextPage}&s=2|"
+						th:if="${PAGE_INFO.hasNextPage} == true">下一页</a>&nbsp;&nbsp;<a
+						th:href="|/c/students/getStudentList?p=${PAGE_INFO.pages}&s=2|">尾页</a></td>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<table border="1" th:remove="${LIST!=null?'none':'all'}">
+	<thead>
+		<tr>
+				<td>序号</td>
+				<td>奖惩</td>
+				<td>学生姓名</td>
+				<td>创建人</td>
+				<td>描述</td>
+			</tr>
+	</thead>
+	<tbody>
+			<tr th:each="temp,i:${LIST}">
+				<td>[[${i.count}]]</td>
+				<td>[[${temp.name}]]</td>
+				<td>[[${temp.stuName}]]</td>
+				<td>[[${temp.createBy}]]</td>
+				<td>[[${temp.des}]]</td>
+			</tr>
+		</tbody>
+	</table>
+	
+</body>
+<script type="text/javascript" src="../../js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+
+
+
+</script>
+</html>

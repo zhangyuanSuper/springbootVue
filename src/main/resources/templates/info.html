@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>奖惩管理</title>
+</head>
+<body>
+	<table border="1">
+		<thead>
+			<tr>
+			<form th:action="@{/c/students/queryByNameWithstuName}" method="POST">
+				<td colspan="6">
+				奖惩:<input type="text" name="name"/>
+				 学生姓名:<input type="text" name="stuName" />
+					<button>查询</button>
+					<a th:href="|/c/students/add|">添加</a>	
+				</td>
+				</form>
+				</tr>
+			<tr>
+				<td>序号</td>
+				<td>奖惩</td>
+				<td>学生姓名</td>
+				<td>创建人</td>
+				<td>创建时间</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="temp,i:${PAGE_INFO.list}" th:style="${i.even?'background:white;':'background:gray;'}">
+				<td>[[${i.count}]]</td>
+				<td>[[${temp.name}]]</td>
+				<td>[[${temp.stuName}]]</td>
+				<td>[[${temp.createBy}]]</td>
+				<td th:text="${#dates.format(temp.createDate,'yyyy-MM-dd')}"></td>
+				<td><a th:href="|/c/students/load?id=${temp.id}|">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+					th:href="|/c/students/del?id=${temp.id}|">删除</a></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="6">当前是第<span th:text="${PAGE_INFO.pageNum}"></span>页,共<span
+					th:text="${PAGE_INFO.pages}"></span>页&nbsp;&nbsp;&nbsp;&nbsp;
+					<a
+					th:href="|/c/students/getRecordList?p=${PAGE_INFO.prePage}&s=2|">
+						上一页&nbsp;&nbsp;&nbsp;&nbsp;
+					<a
+					th:href="|/c/students/getRecordList?p=${PAGE_INFO.nextPage}&s=2|"
+					th:if="${PAGE_INFO.hasNextPage} == true">下一页</a>&nbsp;&nbsp;<a
+					th:href="|/c/students/getRecordList?p=${PAGE_INFO.pages}&s=2|">尾页</a></td>
+			</tr>
+		</tfoot>
+		</tfoot>
+	</table>
+</body>
+</html>
